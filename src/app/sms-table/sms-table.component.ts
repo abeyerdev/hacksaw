@@ -19,8 +19,8 @@ export class SmsTableComponent implements OnInit {
   start = 0;
   end = 0;
   subscription: Subscription;
-  public filteredData: Array<any>;
-  public filteredDataObservable: Observable<Array<any>>;
+  public filteredData: any[];
+  public filteredDataObservable: Observable<any[]>;
 
   constructor(private changeRef: ChangeDetectorRef, private appRef: ApplicationRef) {
     // let LoremIpsum: any;
@@ -41,7 +41,7 @@ export class SmsTableComponent implements OnInit {
     return isSortDesc;
   };
  
-  getCellValue(row: any, column: SmsTableColumnDefinition) :string {
+  getCellValue(row: any, column: SmsTableColumnDefinition): string {
     // if (column.isComputed) {
     //   let evalfunc = new Function ('r', 'return ' + column.binding);
     //   let evalresult:string = evalfunc(row);
@@ -56,8 +56,7 @@ export class SmsTableComponent implements OnInit {
     // }
   }
 
-  private sort(array: Array<any>, fieldName: string, direction: string, isNumeric: boolean)
-  {
+  private sort(array: Array<any>, fieldName: string, direction: string, isNumeric: boolean) {
     const sortFunc = (field, rev, primer) => {
         // Return the required a,b function
         return function (a, b) {
@@ -69,19 +68,17 @@ export class SmsTableComponent implements OnInit {
     };
   
     // Have to handle deep paths
-    var pathValue = function (obj, path) {
+    const pathValue = function (obj, path) {
         for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
             obj = obj[path[i]];
         };
         return obj;
     };
   
-    const primer = isNumeric ?
-        (a) => {
-            var retValue = parseFloat(String(a).replace(/[^0-9.-]+/g, ''));
-            return isNaN(retValue) ? 0.0 : retValue;
-        } :
-        (a) => { return String(a).toUpperCase(); };
+    const primer = isNumeric ? (a) => {
+      const retValue = parseFloat(String(a).replace(/[^0-9.-]+/g, ''));
+      return isNaN(retValue) ? 0.0 : retValue;
+    } : (a) => String(a).toUpperCase();
   
     this.sorting = true;
     this.start = new Date().getTime();
