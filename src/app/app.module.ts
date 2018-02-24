@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { SmsTableComponent } from './sms-table/sms-table.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SmsTableComponent
   ],
   imports: [
     BrowserModule

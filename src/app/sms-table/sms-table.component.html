@@ -1,0 +1,16 @@
+<table class="table-striped table-hover custom-table">
+  <thead>
+    <tr>
+      <th *ngFor="let column of options.columns">
+        <span [innerHTML]="column.name"></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td *ngFor="let column of options.columns">
+        {{getCellValue(row, column)}}
+      </td>
+    </tr>
+  </tbody>
+</table>

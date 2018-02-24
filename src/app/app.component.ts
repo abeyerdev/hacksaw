@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import SmsTableOptions from './sms-table/sms-table-options.model';
+import TestOptions from './sms-table/test-options.data';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'sms-table';
+  tableOptions: SmsTableOptions = TestOptions;
 }
