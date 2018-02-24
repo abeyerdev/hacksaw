@@ -1,8 +1,10 @@
 <table class="table-striped table-hover custom-table">
-  <thead>
+  <thead style="cursor:pointer">
     <tr>
-      <th *ngFor="let column of options.columns">
-        <span [innerHTML]="column.name"></span>
+      <th *ngFor="let column of options.columns" (click)="sortHeaderClicked(column.value)">
+        <span>{{column.name}}</span>
+        <span *ngIf="isSortAsc(column.value)">^</span>
+        <span *ngIf="isSortDesc(column.value)">v</span>
       </th>
     </tr>
   </thead>

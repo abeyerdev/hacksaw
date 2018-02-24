@@ -15,6 +15,9 @@ export class SmsTableComponent implements OnInit {
 
   @Input() options;
   data: any[] = TestData;
+  sorting = false;
+  start = 0;
+  end = 0;
   subscription: Subscription;
   public filteredData: Array<any>;
   public filteredDataObservable: Observable<Array<any>>;
@@ -23,6 +26,20 @@ export class SmsTableComponent implements OnInit {
     // let LoremIpsum: any;
     // this._lipsum = new LoremIpsum();
   }
+
+  isSorting(name: string) {
+    return this.options.config.sortBy !== name && name !== '';
+  };
+   
+  isSortAsc(name: string) {
+    const isSortAsc: boolean = this.options.config.sortBy === name && this.options.config.sortDirection === 'asc';
+    return isSortAsc;
+  };
+   
+  isSortDesc(name: string) {
+    const isSortDesc: boolean = this.options.config.sortBy === name && this.options.config.sortDirection === 'desc';
+    return isSortDesc;
+  };
  
   getCellValue(row: any, column: SmsTableColumnDefinition) :string {
     // if (column.isComputed) {
@@ -37,6 +54,56 @@ export class SmsTableComponent implements OnInit {
       //   .split('.')
       //   .reduce((prev:any, curr:string) => prev[curr], row);
     // }
+  }
+
+  private sort(array: Array<any>, fieldName: string, direction: string, isNumeric: boolean)
+  {
+    const sortFunc = (field, rev, primer) => {
+        // Return the required a,b function
+        return function (a, b) {
+            // Reset a, b to the field
+            a = primer(pathValue(a, field)), b = primer(pathValue(b, field));
+            // Do actual sorting, reverse as needed
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0)) * (rev ? -1 : 1);
+        }
+    };
+  
+    // Have to handle deep paths
+    var pathValue = function (obj, path) {
+        for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
+            obj = obj[path[i]];
+        };
+        return obj;
+    };
+  
+    const primer = isNumeric ?
+        (a) => {
+            var retValue = parseFloat(String(a).replace(/[^0-9.-]+/g, ''));
+            return isNaN(retValue) ? 0.0 : retValue;
+        } :
+        (a) => { return String(a).toUpperCase(); };
+  
+    this.sorting = true;
+    this.start = new Date().getTime();
+    array.sort(sortFunc(fieldName, direction === 'desc', primer));
+    this.end = new Date().getTime();
+    var time = this.end - this.start;
+    this.sorting = false;
+  }
+
+  sortHeaderClicked(columnName) {
+    if (columnName) {
+      if (this.options.config.sortBy === columnName) {
+        this.options.config.sortDirection = this.options.config.sortDirection === 'asc' ? 'desc' : 'asc';
+      }
+      this.options.config.sortBy = columnName;
+      // Get the matching column
+      const column: SmsTableColumnDefinition = this.options.columns
+        .filter((column) => column.value === this.options.config.sortBy)[0];
+
+      const isNumeric: boolean = column.isNumeric === true;
+      this.sort(this.filteredData, this.options.config.sortBy, this.options.config.sortDirection, isNumeric);
+    }
   }
   
   ngOnInit() {

@@ -7,10 +7,10 @@ import 'rxjs/add/observable/of';
 const TestOptions = {
     records: Observable.of(TestData),
     columns: [
-        { name: 'id', value: 'id', binding: '' },
-        { name: 'name', value: 'name', binding: '' },
-        { name: 'age', value: 'age', binding: '' },
-        { name: 'movie', value: 'movie', binding: '' },
+        { name: 'id', value: 'id', binding: '', filter: '', isNumeric: true },
+        { name: 'name', value: 'name', binding: '', filter: '', isNumeric: false },
+        { name: 'age', value: 'age', binding: '', filter: '', isNumeric: true },
+        { name: 'movie', value: 'movie', binding: '', filter: '', isNumeric: false },
     ],
     rowDefns: [],
     config: new SmsTableConfig(),
