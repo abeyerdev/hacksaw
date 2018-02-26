@@ -1,9 +1,10 @@
-import { ApplicationRef, ChangeDetectorRef, Component, Input, OnInit, } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Subscription } from 'rxjs/Subscription';
 import SmsTableOptions from './sms-table-options.model';
 import SmsTableColumnDefinition from './sms-table-col-def.model';
+import ColumnBreakpoints from './column-breakpoints';
 
 @Component({
   selector: 'sms-table',
@@ -23,6 +24,27 @@ export class SmsTableComponent implements OnInit {
   constructor(private changeRef: ChangeDetectorRef, private appRef: ApplicationRef) {
     // let LoremIpsum: any;
     // this._lipsum = new LoremIpsum();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    // console.log(event);
+    const width = event.target.innerWidth;
+    const height = event.target.innerHeight;
+    // console.log(width + ' x ' + height);
+    const cols = this.options.columns;
+    for (const col of cols) {
+        if (width < ColumnBreakpoints[col.priority]) {
+            col.hidden = true;
+        } else {
+            col.hidden = false;
+        }
+    }
+    // if (width < 1120) {
+    //     this.columnIsVisible = false;
+    // } else {
+    //     this.columnIsVisible = true;
+    // }
   }
 
   isSorting(name: string) {
@@ -112,11 +134,23 @@ export class SmsTableComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log(`In NgOnInit() with options: ${JSON.stringify(this.options, null, 2)}`);
+    // console.log(`In NgOnInit() with options: ${JSON.stringify(this.options, null, 2)}`);
     if (!this.options) {
         this.options = new SmsTableOptions(this.data);
-        console.log(`Just set options: ${JSON.stringify(this.options, null, 2)}`);
+        // console.log(`Just set options: ${JSON.stringify(this.options, null, 2)}`);
     }
+
+    this.options.columns[0].priority = 1;
+    this.options.columns[1].priority = 2;
+    this.options.columns[2].priority = 3;
+    this.options.columns[3].priority = 3;
+    this.options.columns[4].priority = 4;
+    this.options.columns[5].priority = 4;
+    this.options.columns[6].priority = 5;
+    this.options.columns[7].priority = 5;
+    this.options.columns[8].priority = 6;
+
+
     this.subscription = this.options.records
       .subscribe(res => {
          this.filteredDataObservable = Observable.of(res);

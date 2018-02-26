@@ -105,7 +105,8 @@
   /* Show priority 6 at 1,120px (70em x 16px) */
   @media screen and (min-width: 70em) {
     th.ui-p-6,
-    td.ui-p-6 {
+    td.ui-p-6
+    {
         display: table-cell;
     }
   }
