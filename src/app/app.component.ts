@@ -8,6 +8,6 @@ import TestData from './sms-table/test.data';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'sms-table';
+  title = 'Hacksaw';
   tableData = TestData;
 }
