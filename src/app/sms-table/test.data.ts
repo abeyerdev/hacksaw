@@ -1,3 +1,4 @@
+// tslint:disable
 const TestData = [
     { id: 1, name: 'Adam', age: 30, movie: 'Little Nicky', food: 'philly cheesesteak', DOB: new Date(1988, 3, 4), pets: true, color: 'green', city: 'Appleton'},
     { id: 2, name: 'Meggan', age: 29, movie: 'The Notebook', food: 'prime rib', DOB: new Date(1987, 8, 31), pets: true, color: 'teal', city: 'Appleton'},

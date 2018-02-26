@@ -44,13 +44,17 @@ export class SmsTableComponent implements OnInit {
     //   let evalresult:string = evalfunc(row);
     //   return evalresult;
     // } else {
-      // console.log(`Entering getCellValue with row: ${JSON.stringify(row, null, 2)},
-      //   column: ${JSON.stringify(column, null, 2)}`);
-      return row[column.value];
+    // console.log(`Entering getCellValue with row: ${JSON.stringify(row, null, 2)},
+    //   column: ${JSON.stringify(column, null, 2)}`);
+      let returnVal = row[column.value];
+      if (returnVal instanceof Date) {
+        returnVal = returnVal.toLocaleDateString();
+      }
+      return returnVal;
       // return column.binding
       //   .split('.')
       //   .reduce((prev:any, curr:string) => prev[curr], row);
-    // }
+      // }
   }
 
   private sort(array: Array<any>, fieldName: string, direction: string, isNumeric: boolean) {
@@ -94,8 +98,7 @@ export class SmsTableComponent implements OnInit {
       const matchingColumn: SmsTableColumnDefinition = this.options.columns
         .filter((column) => column.value === this.options.config.sortBy)[0];
 
-      const isNumeric: boolean = matchingColumn.isNumeric === true;
-      this.sort(this.filteredData, this.options.config.sortBy, this.options.config.sortDirection, isNumeric);
+      this.sort(this.filteredData, this.options.config.sortBy, this.options.config.sortDirection, matchingColumn.isNumeric);
     }
   }
 
