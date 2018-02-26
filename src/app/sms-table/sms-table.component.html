@@ -6,14 +6,14 @@
                     v
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" [ngClass]="showDropdown ? 'dropdown-show' : 'dropdown-hide'">
-                    <a class="dropdown-item" *ngFor="let column of options.columns" (click)="toggleColumn(column)" href="#">
+                    <a class="dropdown-item" *ngFor="let column of options.columns" (click)="toggleColumn(column)" href="#" [class.minimap-dot-hidden]="column.hidden">
                         {{ column.name }}
                     </a>
                 </div>
             </div>
             <div class="minimap-dots">
                 <ul class="list-inline">
-                    <li class="list-inline-item" *ngFor="let column of options.columns" [ngClass]="column.hidden ? 'minimap-dot-hidden' : ''">
+                    <li class="list-inline-item" *ngFor="let column of options.columns" [class.minimap-dot-hidden]="column.hidden">
                         .
                     </li>
                 </ul>

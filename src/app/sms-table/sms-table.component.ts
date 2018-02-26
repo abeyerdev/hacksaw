@@ -49,7 +49,7 @@ export class SmsTableComponent implements OnInit {
     //   column: ${JSON.stringify(column, null, 2)}`);
       let returnVal = row[column.value];
       if (returnVal instanceof Date) {
-        returnVal = returnVal.toLocaleDateString();
+        returnVal = returnVal.toLocaleDateString('en-US');
       }
       return returnVal;
       // return column.binding
