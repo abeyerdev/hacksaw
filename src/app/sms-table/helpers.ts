@@ -1,8 +1,8 @@
 /**
- * Returns a boolean representing whether n 
+ * Returns a boolean representing whether n
  * can parse to a Number properly.
- * @param {*} n 
+ * @param {*} n
  */
 export const isNumeric = (n) => {
-    return !isNaN(parseFloat(n)) && isFinite(n)
-  }
+    return n instanceof Date || (!isNaN(parseFloat(n)) && isFinite(n));
+};
