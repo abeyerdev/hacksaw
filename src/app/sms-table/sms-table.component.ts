@@ -12,8 +12,9 @@ import SmsTableColumnDefinition from './sms-table-col-def.model';
 })
 export class SmsTableComponent implements OnInit {
 
-  @Input() options;
+  @Input() options: SmsTableOptions;
   @Input() data;
+  showDropdown = false;
   sorting = false;
   subscription: Subscription;
   public filteredData: any[];
@@ -95,12 +96,20 @@ export class SmsTableComponent implements OnInit {
       }
       this.options.config.sortBy = columnName;
 
-      const matchingColumn: SmsTableColumnDefinition = this.options.columns
+      const matchingColumn = this.options.columns
         .filter((column) => column.value === this.options.config.sortBy)[0];
 
       this.sort(this.filteredData, this.options.config.sortBy, this.options.config.sortDirection, matchingColumn.isNumeric);
     }
   }
+
+    toggleColumn(column) {
+        column.hidden = !column.hidden;
+    }
+
+    toggleDropdown() {
+        this.showDropdown = !this.showDropdown;
+    }
 
   ngOnInit() {
     console.log(`In NgOnInit() with options: ${JSON.stringify(this.options, null, 2)}`);

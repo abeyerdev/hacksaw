@@ -1,3 +1,44 @@
 .custom-table td {
     padding: 0px 10px;
 }
+
+.minimap {
+    width: 100%;
+}
+
+.minimap-dots {
+    float: right;
+    margin-right: 15px;
+}
+
+.minimap-dots ul li {
+    display: table-cell;
+    padding: 0px 2px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.minimap-dot-hidden {
+    opacity: .25;
+}
+
+.minimap-dropdown {
+    position: relative;
+    float: right;
+}
+
+.sms-col-hidden {
+    display: none
+}
+
+.sms-col-show {
+    display: table-cell
+}
+
+.dropdown-hide {
+    display: none;
+}
+
+.dropdown-show {
+    display: block;
+}
