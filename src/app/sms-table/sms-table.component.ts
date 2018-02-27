@@ -12,7 +12,6 @@ import ColumnBreakpoints from './column-breakpoints';
   styleUrls: ['./sms-table.component.css']
 })
 export class SmsTableComponent implements OnInit {
-
   @Input() options: SmsTableOptions;
   @Input() data;
   showDropdown = false;
@@ -22,139 +21,126 @@ export class SmsTableComponent implements OnInit {
   public filteredDataObservable: Observable<any[]>;
 
   constructor(private changeRef: ChangeDetectorRef, private appRef: ApplicationRef) {
-    // let LoremIpsum: any;
-    // this._lipsum = new LoremIpsum();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    // console.log(event);
-    const width = event.target.innerWidth;
-    const height = event.target.innerHeight;
-    // console.log(width + ' x ' + height);
-    const cols = this.options.columns;
-    for (const col of cols) {
-        if (width < ColumnBreakpoints[col.priority]) {
-            col.hidden = true;
-        } else {
-            col.hidden = false;
-        }
-    }
-    // if (width < 1120) {
-    //     this.columnIsVisible = false;
-    // } else {
-    //     this.columnIsVisible = true;
-    // }
+      const width = event.target.innerWidth;
+      const height = event.target.innerHeight;
+      const cols = this.options.columns;
+      for (const col of cols) {
+          const {alwaysShow, manuallyHidden, priority} = col.visibility;
+          if (alwaysShow) {
+            col.visibility.hidden = false;
+          } else if (!manuallyHidden && width < ColumnBreakpoints[priority]) {
+              col.visibility.hidden = true;
+          } else if (!manuallyHidden){
+              col.visibility.hidden = false;
+          }
+      }
   }
 
   isSorting(name: string) {
-    return this.options.config.sortBy !== name && name !== '';
+      return this.options.config.sortBy !== name && name !== '';
   }
 
   isSortAsc(name: string) {
-    const isSortAsc: boolean = this.options.config.sortBy === name && this.options.config.sortDirection === 'asc';
-    return isSortAsc;
+      const isSortAsc: boolean = this.options.config.sortBy === name && this.options.config.sortDirection === 'asc';
+      return isSortAsc;
   }
 
   isSortDesc(name: string) {
-    const isSortDesc: boolean = this.options.config.sortBy === name && this.options.config.sortDirection === 'desc';
-    return isSortDesc;
+      const isSortDesc: boolean = this.options.config.sortBy === name && this.options.config.sortDirection === 'desc';
+      return isSortDesc;
   }
 
   getCellValue(row: any, column: SmsTableColumnDefinition): string {
-    // if (column.isComputed) {
-    //   let evalfunc = new Function ('r', 'return ' + column.binding);
-    //   let evalresult:string = evalfunc(row);
-    //   return evalresult;
-    // } else {
-    // console.log(`Entering getCellValue with row: ${JSON.stringify(row, null, 2)},
-    //   column: ${JSON.stringify(column, null, 2)}`);
       let returnVal = row[column.value];
       if (returnVal instanceof Date) {
         returnVal = returnVal.toLocaleDateString('en-US');
       }
       return returnVal;
-      // return column.binding
-      //   .split('.')
-      //   .reduce((prev:any, curr:string) => prev[curr], row);
-      // }
+  }
+
+  getHideableCols() {
+    return this.options.columns.filter((col) => !col.visibility.alwaysShow);
   }
 
   private sort(array: Array<any>, fieldName: string, direction: string, isNumeric: boolean) {
+      const sortFunc = (field, rev, primerFn) => {
+          // Return the required a,b function
+          return (a, b) => {
+              // Reset a, b to the field
+              a = primerFn(pathValue(a, field)), b = primerFn(pathValue(b, field));
+              // Do actual sorting, reverse as needed
+              return ((a < b) ? -1 : ((a > b) ? 1 : 0)) * (rev ? -1 : 1);
+          };
+      };
 
-    const sortFunc = (field, rev, primerFn) => {
-        // Return the required a,b function
-        return (a, b) => {
-            // Reset a, b to the field
-            a = primerFn(pathValue(a, field)), b = primerFn(pathValue(b, field));
-            // Do actual sorting, reverse as needed
-            return ((a < b) ? -1 : ((a > b) ? 1 : 0)) * (rev ? -1 : 1);
-        };
-    };
+      // Have to handle deep paths
+      const pathValue = function (obj, path) {
+          path = path.split('.');
+          const len = path.length;
+          for (let i = 0; i < len; i++) {
+              obj = obj[path[i]];
+          }
+          return obj;
+      };
 
-    // Have to handle deep paths
-    const pathValue = function (obj, path) {
-        path = path.split('.');
-        const len = path.length;
-        for (let i = 0; i < len; i++) {
-            obj = obj[path[i]];
-        }
-        return obj;
-    };
+      const primer = isNumeric ? (a) => {
+        const retValue = parseFloat(String(a).replace(/[^0-9.-]+/g, ''));
+        return isNaN(retValue) ? 0.0 : retValue;
+      } : (a) => String(a).toUpperCase();
 
-    const primer = isNumeric ? (a) => {
-      const retValue = parseFloat(String(a).replace(/[^0-9.-]+/g, ''));
-      return isNaN(retValue) ? 0.0 : retValue;
-    } : (a) => String(a).toUpperCase();
-
-    this.sorting = true;
-    array.sort(sortFunc(fieldName, direction === 'desc', primer));
+      this.sorting = true;
+      array.sort(sortFunc(fieldName, direction === 'desc', primer));
   }
 
-  sortHeaderClicked(columnName) {
-    if (columnName) {
-      if (this.options.config.sortBy === columnName) {
-        this.options.config.sortDirection = this.options.config.sortDirection === 'asc' ? 'desc' : 'asc';
+    sortHeaderClicked(columnName) {
+        if (columnName) {
+            if (this.options.config.sortBy === columnName) {
+              this.options.config.sortDirection = this.options.config.sortDirection === 'asc' ? 'desc' : 'asc';
+            }
+            this.options.config.sortBy = columnName;
+
+            const matchingColumn = this.options.columns
+              .filter((column) => column.value === this.options.config.sortBy)[0];
+
+            this.sort(this.filteredData, this.options.config.sortBy, this.options.config.sortDirection, matchingColumn.isNumeric);
       }
-      this.options.config.sortBy = columnName;
-
-      const matchingColumn = this.options.columns
-        .filter((column) => column.value === this.options.config.sortBy)[0];
-
-      this.sort(this.filteredData, this.options.config.sortBy, this.options.config.sortDirection, matchingColumn.isNumeric);
-    }
   }
 
     toggleColumn(column) {
-        column.hidden = !column.hidden;
+        column.visibility.hidden = !column.visibility.hidden;
+        column.visibility.manuallyHidden = column.visibility.hidden === true;        
     }
 
     toggleDropdown() {
         this.showDropdown = !this.showDropdown;
     }
 
-  ngOnInit() {
-    // console.log(`In NgOnInit() with options: ${JSON.stringify(this.options, null, 2)}`);
-    if (!this.options) {
-        this.options = new SmsTableOptions(this.data);
-        // console.log(`Just set options: ${JSON.stringify(this.options, null, 2)}`);
+    ngOnInit() {
+        if (!this.options) {
+            this.options = new SmsTableOptions(this.data);
     }
 
-    this.options.columns[0].priority = 1;
-    this.options.columns[1].priority = 2;
-    this.options.columns[2].priority = 3;
-    this.options.columns[3].priority = 3;
-    this.options.columns[4].priority = 4;
-    this.options.columns[5].priority = 4;
-    this.options.columns[6].priority = 5;
-    this.options.columns[7].priority = 5;
-    this.options.columns[8].priority = 6;
+    // Testing visibility priorities
+    this.options.columns[0].visibility.priority = 1;
+    this.options.columns[1].visibility.alwaysShow = true;
+    this.options.columns[1].visibility.priority = 2;
+    this.options.columns[2].visibility.priority = 3;
+    this.options.columns[3].visibility.priority = 3;
+    this.options.columns[4].visibility.priority = 4;
+    this.options.columns[5].visibility.priority = 4;
+    this.options.columns[6].visibility.priority = 5;
+    this.options.columns[7].visibility.priority = 5;
+    this.options.columns[8].visibility.priority = 6;
 
 
     this.subscription = this.options.records
-      .subscribe(res => {
-         this.filteredDataObservable = Observable.of(res);
-         this.filteredData = res;
-      });
+        .subscribe(res => {
+            this.filteredDataObservable = Observable.of(res);
+            this.filteredData = res;
+        });
   }
 }
