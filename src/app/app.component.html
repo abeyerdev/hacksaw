@@ -5,7 +5,23 @@
         Welcome to {{ title }}!
       </h1>
       <hr>
-      <sms-table [data]="tableData"></sms-table>
+      <!-- <sms-table [data]="tableData"></sms-table> -->
+      <table sms-sortable-table [data]="tableData">
+        <thead>
+          <tr>
+            <th sms-sortable-column="id" sms-sort-direction="asc">Id</th>
+            <th sms-sortable-column="name">Name</th>
+            <th sms-sortable-column="age">Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of tableData">
+            <td>{{row.id}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.age}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>      
 </div>

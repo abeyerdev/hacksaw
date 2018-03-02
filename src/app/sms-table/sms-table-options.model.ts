@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import SmsTableColumnDefinition from './sms-table-col-def.model';
 import SmsTableConfig from './sms-table-config.model';
-import { isNumeric } from './helpers';
+import { isNumeric } from '../common/helpers';
 
 export default class SmsTableOptions {
     public records: Observable<Array<any>>;

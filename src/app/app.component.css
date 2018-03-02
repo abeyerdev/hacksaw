@@ -1,3 +1,7 @@
 .table-striped {
     margin-top: 70px;
 }
+
+th {
+    cursor: pointer;
+}

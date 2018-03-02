@@ -1,10 +1,10 @@
-import { ApplicationRef, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, HostListener, Input, OnInit, TemplateRef, ElementRef, ContentChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Subscription } from 'rxjs/Subscription';
 import SmsTableOptions from './sms-table-options.model';
 import SmsTableColumnDefinition from './sms-table-col-def.model';
-import ColumnBreakpoints from './column-breakpoints';
+import ColumnBreakpoints from '../common/column-breakpoints';
 
 @Component({
   selector: 'sms-table',
@@ -13,7 +13,9 @@ import ColumnBreakpoints from './column-breakpoints';
 })
 export class SmsTableComponent implements OnInit {
   @Input() options: SmsTableOptions;
+  @ContentChild('name') override: TemplateRef<ElementRef>;
   @Input() data;
+  overrideTemplates = [];
   showDropdown = false;
   sorting = false;
   subscription: Subscription;
@@ -122,25 +124,28 @@ export class SmsTableComponent implements OnInit {
     ngOnInit() {
         if (!this.options) {
             this.options = new SmsTableOptions(this.data);
-    }
+        }
 
-    // Testing visibility priorities
-    this.options.columns[0].visibility.priority = 1;
-    this.options.columns[1].visibility.alwaysShow = true;
-    this.options.columns[1].visibility.priority = 2;
-    this.options.columns[2].visibility.priority = 3;
-    this.options.columns[3].visibility.priority = 3;
-    this.options.columns[4].visibility.priority = 4;
-    this.options.columns[5].visibility.priority = 4;
-    this.options.columns[6].visibility.priority = 5;
-    this.options.columns[7].visibility.priority = 5;
-    this.options.columns[8].visibility.priority = 6;
+        if(this.override) {
+            console.log(JSON.stringify(this.override.elementRef, null, 2));
+        }
 
+        // Testing visibility priorities
+        this.options.columns[0].visibility.priority = 1;
+        this.options.columns[1].visibility.alwaysShow = true;
+        this.options.columns[1].visibility.priority = 2;
+        this.options.columns[2].visibility.priority = 3;
+        this.options.columns[3].visibility.priority = 3;
+        this.options.columns[4].visibility.priority = 4;
+        this.options.columns[5].visibility.priority = 4;
+        this.options.columns[6].visibility.priority = 5;
+        this.options.columns[7].visibility.priority = 5;
+        this.options.columns[8].visibility.priority = 6;
 
-    this.subscription = this.options.records
-        .subscribe(res => {
-            this.filteredDataObservable = Observable.of(res);
-            this.filteredData = res;
-        });
+        this.subscription = this.options.records
+            .subscribe(res => {
+                this.filteredDataObservable = Observable.of(res);
+                this.filteredData = res;
+            });
   }
 }
