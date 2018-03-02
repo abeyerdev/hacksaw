@@ -64,6 +64,10 @@ export class SmsSortableTableDirective implements OnInit, OnDestroy {
     };
 
     const primer = isNumeric ? (a) => {
+      // if we're dealing with dates, return the numeric representation (ms)
+      if (a instanceof Date) {
+          return +a;
+      }
       const retValue = parseFloat(String(a).replace(/[^0-9.-]+/g, ''));
       return isNaN(retValue) ? 0.0 : retValue;
     } : (a) => String(a).toUpperCase();
