@@ -7,6 +7,8 @@ import { SmsTableComponent } from './sms-table/sms-table.component';
 import { SmsSortableColumnComponent } from './hacksaw/sms-sortable-column/sms-sortable-column.component';
 import { SmsSortableTableDirective } from './hacksaw/sms-sortable-table/sms-sortable-table.directive';
 import { SmsSortService } from './hacksaw/sms-sortable-column/sms-sort.service';
+import { SmsMinimapColumnsComponent } from './hacksaw/sms-minimap-columns/sms-minimap-columns.component';
+import { SmsMinimapComponent } from './hacksaw/sms-minimap/sms-minimap.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { SmsSortService } from './hacksaw/sms-sortable-column/sms-sort.service';
     SmsSortableColumnComponent,
     SmsSortableTableDirective,
     SmsTableComponent,
+    SmsMinimapColumnsComponent,
+    SmsMinimapComponent,
   ],
   imports: [
     BrowserModule,

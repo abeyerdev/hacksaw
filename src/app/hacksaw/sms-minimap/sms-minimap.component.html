@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="minimap float-right">
+      <div class="minimap-dropdown">                          
+          <button class="btn btn-success btn-sm" (click)="toggleDropdown()">
+              v
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" [ngClass]="showDropdown ? 'dropdown-show' : 'dropdown-hide'">
+              <a class="dropdown-item" *ngFor="let column of columns" (click)="toggleColumn(column)" href="#" [class.minimap-dot-hidden]="column.visibility.hidden">
+                  {{ column.name }}
+              </a>
+          </div>
+      </div>
+      <div class="minimap-dots">
+          <ul class="list-inline">
+              <li class="list-inline-item" *ngFor="let column of columns" [class.minimap-dot-hidden]="column.visibility.hidden">
+                  .
+              </li>
+          </ul>
+      </div>
+  </div>
+</div>
+<ng-content></ng-content>

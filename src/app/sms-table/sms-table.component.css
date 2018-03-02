@@ -43,6 +43,10 @@
     display: block;
 }
 
+.hidden-dot {
+    opacity: .25;
+}
+
 /*
 /* Column Priorities */
 @media only all {
@@ -111,6 +115,4 @@
     }
   }
   
-  .hidden-dot {
-    opacity: .25;
-  }
+  

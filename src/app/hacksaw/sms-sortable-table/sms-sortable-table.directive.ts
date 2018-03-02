@@ -21,7 +21,7 @@ export class SmsSortableTableDirective implements OnInit, OnDestroy {
     if (!this.data) {
       console.error('No data found for sms-sortable-table! Try binding the [data] property to a dataset.')
     } else {
-      this.columnInfo = this.buildColumnInfo(this.data);
+      this.columnInfo = SmsColumnDefinition.buildColumnInfo(this.data);
       this.columnSortedSubscription = this.sortService.columnSorted$
         .subscribe((event) => {
           const columnInfo = this.getColumnInfo(event.sortColumn);
@@ -35,19 +35,6 @@ export class SmsSortableTableDirective implements OnInit, OnDestroy {
 
   ngOnDestroy() {
       this.columnSortedSubscription.unsubscribe();
-  }
-
-  private buildColumnInfo(data: any[]): SmsColumnDefinition[] {
-    const firstRow = data[0];
-    const cols = Object.keys(firstRow);
-    return cols
-      .map((colName) => {
-        const colDef = new SmsColumnDefinition();
-        colDef.name = colName;
-        colDef.value = colName;
-        colDef.isNumeric = isNumeric(firstRow[colName]);
-        return colDef;
-      });
   }
 
   private getColumnInfo(columnName: string) : SmsColumnDefinition {
