@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SmsSortService } from '../sms-sortable-column/sms-sort.service'
+import { SmsSortService } from '../sms-sortable-column/sms-sort.service';
 import { isNumeric } from '../../common/helpers';
 import { SmsColumnDefinition } from '../sms-column-definition.model';
 
@@ -9,23 +9,28 @@ import { SmsColumnDefinition } from '../sms-column-definition.model';
 })
 export class SmsSortableTableDirective implements OnInit, OnDestroy {
 
-  constructor(private sortService: SmsSortService) { }
+  constructor(private sortService: SmsSortService) {}
 
   @Input()
   data: any[] = null;
   
-  private columnSortedSubscription: Subscription;  
+  private columnSortedSubscription: Subscription;
   private columnInfo: SmsColumnDefinition[];
 
   ngOnInit() {
-    this.columnInfo = this.buildColumnInfo(this.data);
-    this.columnSortedSubscription = this.sortService.columnSorted$
-      .subscribe((event) => {
-        const columnInfo = this.getColumnInfo(event.sortColumn);
-        if (columnInfo) {
-          this.sort(this.data, event.sortColumn, event.sortDirection, columnInfo.isNumeric);
-        }        
-      });
+    if (!this.data) {
+      console.error('No data found for sms-sortable-table! Try binding the [data] property to a dataset.')
+    } else {
+      this.columnInfo = this.buildColumnInfo(this.data);
+      this.columnSortedSubscription = this.sortService.columnSorted$
+        .subscribe((event) => {
+          const columnInfo = this.getColumnInfo(event.sortColumn);
+          if (columnInfo) {
+            // console.log(event.sortColumn, columnInfo);
+            this.sort(this.data, event.sortColumn, event.sortDirection, columnInfo.isNumeric);
+          }        
+        });
+    }
   }
 
   ngOnDestroy() {
@@ -50,9 +55,10 @@ export class SmsSortableTableDirective implements OnInit, OnDestroy {
   }
 
   private sort(array: Array<any>, fieldName: string, direction: string, isNumeric: boolean) {
+    // Return the required a,b function
     const sortFunc = (field, rev, primerFn) => {
-        // Return the required a,b function
         return (a, b) => {
+            // console.log(`Sorting ${field}: ${a} vs ${b}`);
             // Reset a, b to the field
             a = primerFn(pathValue(a, field)), b = primerFn(pathValue(b, field));
             // Do actual sorting, reverse as needed
