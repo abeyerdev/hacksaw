@@ -27,7 +27,6 @@ export class SmsSortableTableDirective implements OnInit, OnDestroy {
         .subscribe((event) => {
           const columnInfo = this.getColumnInfo(event.sortColumn);
           if (columnInfo) {
-            // console.log(event.sortColumn, columnInfo);
             this.sort(this.data, event.sortColumn, event.sortDirection, columnInfo.isNumeric);
           }        
         });
@@ -46,7 +45,6 @@ export class SmsSortableTableDirective implements OnInit, OnDestroy {
     // Return the required a,b function
     const sortFunc = (field, rev, primerFn) => {
         return (a, b) => {
-            // console.log(`Sorting ${field}: ${a} vs ${b}`);
             // Reset a, b to the field
             a = primerFn(pathValue(a, field)), b = primerFn(pathValue(b, field));
             // Do actual sorting, reverse as needed
