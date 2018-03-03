@@ -7,10 +7,11 @@
       <hr>
       <!-- <sms-table [data]="tableData"></sms-table> -->
       <!-- <sms-data-manager> -->
-        <sms-minimap [data]="tableData"></sms-minimap>        
+        <sms-minimap [data]="tableData"></sms-minimap>
         <table
           class="table table-striped table-hover"
           [data]="tableData"
+          sms-minimap-enabled
           sms-sortable-table
         >
           <thead>
@@ -28,15 +29,15 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of tableData">
-              <td>{{row.id}}</td>
-              <td>{{row.name}}</td>
-              <td>{{row.age}}</td>
-              <td>{{row.movie}}</td>
-              <td>{{row.food}}</td>
-              <td>{{row.DOB}}</td>
-              <td>{{row.pets}}</td>
-              <td>{{row.color}}</td>
-              <td>{{row.city}}</td>
+              <td sms-hideable-column-data="id">{{row.id}}</td>
+              <td sms-hideable-column-data="name">{{row.name}}</td>
+              <td sms-hideable-column-data="age">{{row.age}}</td>
+              <td sms-hideable-column-data="movie">{{row.movie}}</td>
+              <td sms-hideable-column-data="food">{{row.food}}</td>
+              <td sms-hideable-column-data="DOB">{{row.DOB}}</td>
+              <td sms-hideable-column-data="pets">{{row.pets}}</td>
+              <td sms-hideable-column-data="color">{{row.color}}</td>
+              <td sms-hideable-column-data="city">{{row.city}}</td>
             </tr>
           </tbody>
         </table>

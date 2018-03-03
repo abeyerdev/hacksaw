@@ -127,7 +127,7 @@ export class SmsTableComponent implements OnInit {
         }
 
         if(this.override) {
-            console.log(JSON.stringify(this.override.elementRef, null, 2));
+            // console.log(JSON.stringify(this.override.elementRef, null, 2));
         }
 
         // Testing visibility priorities
