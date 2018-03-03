@@ -1,6 +1,6 @@
 export class SmsColumnVisibility {
-    alwaysShow: boolean;    
-    hidden: boolean;
-    manuallyHidden: boolean;
+    alwaysShow = false;    
+    hidden = false;
+    manuallyHidden = false;
     priority = 1;
 }

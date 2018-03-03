@@ -4,8 +4,6 @@ import { isNumeric } from '../common/helpers';
 export class SmsColumnDefinition {
     name = '';
     value = '';
-    binding = '';
-    filter = '';
     isNumeric = false;
     visibility = new SmsColumnVisibility();
 

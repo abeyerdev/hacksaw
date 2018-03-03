@@ -1,15 +1,16 @@
-import { Directive, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
+import { Directive, EventEmitter, OnDestroy, OnInit, Output, Input, Optional } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SmsSortService } from '../sms-sortable-column/sms-sort.service';
 import { isNumeric } from '../../common/helpers';
 import { SmsColumnDefinition } from '../sms-column-definition.model';
+import { SmsMinimapService } from '../sms-minimap/sms-minimap.service';
 
 @Directive({
   selector: '[sms-sortable-table]'
 })
 export class SmsSortableTableDirective implements OnInit, OnDestroy {
 
-  constructor(private sortService: SmsSortService) {}
+  constructor(@Optional() private smsMinimapService: SmsMinimapService, private sortService: SmsSortService) {}
 
   @Input()
   data: any[] = null;
