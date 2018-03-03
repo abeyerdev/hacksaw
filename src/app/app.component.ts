@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import SmsTableOptions from './sms-table/sms-table-options.model';
 import TestData from './common/test.data';
 
 @Component({
