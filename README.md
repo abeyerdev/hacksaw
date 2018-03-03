@@ -1,7 +1,7 @@
 # Hacksaw
 A custom responsive Angular table component allowing for sorting, filtering, etc while maintaining ease of styling.
 
-![Hacksaw example](https://media.giphy.com/media/NRw4zGkRvgEUetHQdK/giphy.gif)
+<img src="https://media.giphy.com/media/NRw4zGkRvgEUetHQdK/giphy.gif" alt="Hacksaw usage" width="650" height="300">
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.1.
 
