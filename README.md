@@ -1,5 +1,5 @@
 # Hacksaw
-A custom responsive Angular table component allowing for sorting, filtering, etc while maintaining ease of styling.
+A custom responsive Angular table component allowing for sorting and responsive column toggling with minimap while maintaining ease of styling.
 
 ![Hacksaw example](https://media.giphy.com/media/NRw4zGkRvgEUetHQdK/giphy.gif)
 
