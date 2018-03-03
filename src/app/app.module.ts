@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HacksawModule } from './hacksaw/hacksaw.module';
 
 import { AppComponent } from './app.component';
+import { ScreenService } from './hacksaw/screen.service';
 import { SmsTableComponent } from './sms-table/sms-table.component';
 import { SmsSortableColumnComponent } from './hacksaw/sms-sortable-column/sms-sortable-column.component';
 import { SmsSortableTableDirective } from './hacksaw/sms-sortable-table/sms-sortable-table.directive';
@@ -25,6 +26,7 @@ import { SmsHideableColumnDataComponent } from './hacksaw/sms-hideable-column-da
     HacksawModule,
   ],
   providers: [
+    ScreenService,
     SmsMinimapService, 
     SmsSortService
   ],

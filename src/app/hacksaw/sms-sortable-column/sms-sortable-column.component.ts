@@ -33,16 +33,12 @@ export class SmsSortableColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // console.log(`Initializing SortableColumn`);
     if (this.smsMinimapService) {
       this.smsMinimapService.getColumnInfo()
-        .subscribe((newColumnInfo) => {
-          // console.log(`Received new column info: ${JSON.stringify(newColumnInfo, null, 2)}`);          
+        .subscribe((newColumnInfo) => {       
           const thisColumn = newColumnInfo.find((col) => col.value === this.columnName);
-          // console.log(`Upon seeing new column info, we found ${JSON.stringify(thisColumn, null, 2)}`);
           if (thisColumn !== undefined) {
-            this.hidden = thisColumn.visibility.hidden;
-            // console.log(`We should have just hid ${this.columnName}: ${this.hidden}`);          
+            this.hidden = thisColumn.visibility.hidden;     
           }
         });
     }
